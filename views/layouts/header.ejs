@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title><%= title %></title>
+
+        <link rel="shortcut icon" href="/asset2/images/fav.jpg">
+        <link rel="stylesheet" href="/assets2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets2/css/fontawsom-all.min.css">
+        <link rel="stylesheet" href="/assets2/css/animate.css">
+        <link rel="stylesheet" type="text/css" href="/assets2/css/style.css"/>
+    </head>
+
+<body>
+
+    <%
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        baseUrl = "http://localhost:7000/";
+    %>
+
+    <script type = "text/javascript">
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        let baseUrl = "http://localhost:7000/";
+    </script>
+
+    <header class="continer-fluid ">
+        <div class="header-top">
+            <div class="container">
+                <div class="row col-det">
+                    <div class="col-lg-6 d-none d-lg-block">
+                        <ul class="ulleft">
+                            
+                            <li>
+                                <i class=""></i>
+                                Flixx
+                                <span>|</span></li>
+                            <li>
+                                <i class="far fa-clock"></i>
+                                Service Time : 12:AM</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <ul class="ulright">
+                            <% if(typeof isLogin !== "undefined" && isLogin) { %>
+                                <li class="nav-item">
+                                    <a href="/upload" class="nav-link">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                            Upload Video
+                                        <span>|</span>
+                                    </a>
+                                <li>
+
+                                <li class="nav-item">
+                                    <a href="/blog" class="nav-link">
+                                        <i class="fas fa-blog"></i>
+                                            Blog
+                                        <span>|</span>
+                                    </a>
+                                <li>
+
+                                <li class="nav-item">
+                                    <a href="/logout" class="nav-link">
+                                        <i class="fas fa-logout"></i>
+                                        Logout
+                                        <span>|</span>
+                                    </a>
+                                <li>
+
+                                <li class="nav-item">
+                                   <a href="/logout" class="nav-link">
+                                    <i class="fas fa-settings"></i>
+                                        Settings
+                                        <span>|</span>
+                                   </a>
+                                <li>
+                            <% } else { %>
+                                <li class="nav-item">
+                                    <a href="/login" class="nav-link">
+                                        <i class="fas fa-user"></i>
+                                        Login
+                                        <!-- <span>|</span> -->
+                                    </a>
+                                </li>
+            
+                                <li class="nav-item">
+                                    <a href="/signup" class="nav-link">
+                                        <i class="fas fa-user"></i>
+                                        Signup
+                                        <!-- <span>|</span> -->
+                                    </a>
+                                </li>
+    
+                                <li class="nav-item">
+                                    <a href="/blog" class="nav-link">
+                                        <i class="fas fa-blog"></i>
+                                        Blog
+                                        <!-- <span>|</span> -->
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+               
+        </div>
+    </header>
+
+    <div class="message-box" style="margin-top: 0.7em;">
+        <%- messages('messages', locals) %> <!-- Calling the messages middleware -->
+
+        <!-- Making the validation errors show in here -->
+        <div class="container">
+            <div class="col-sm-6" style="margin-top: 1.1em;">
+                <% if(typeof alert != 'undefined') { %>
+                    <div id="error_display">
+                        <% alert.forEach(function(error) { %>
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <%= error.msg %>
+                                <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button> -->
+                            </div>
+                        <% }) %>
+                    </div> 
+                <% } %>
+            </div>
+        </div>
+
+</body>
+
+<script>
+    const validationResult = document.getElementById("error_display");
+    setTimeout(function(){validationResult.style.display = 'none'}, 6000);
+</script>
+
+</html>

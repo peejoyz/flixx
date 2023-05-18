@@ -1,0 +1,16 @@
+
+<% Object.keys(messages).forEach(function (type) { %>
+  <div id="error_display">
+    <div class="alert alert-<%= type %>">
+      <% messages[type].forEach(function (message) { %>
+          <%= message %>
+        <% }) %>
+    </div> 
+  </div>
+	  
+<% }) %>
+
+<script>
+  const Success = document.getElementById("error_display");
+  setTimeout(function(){Success.style.display = 'none'}, 4000);
+</script>

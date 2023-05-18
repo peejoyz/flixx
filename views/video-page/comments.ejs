@@ -1,0 +1,197 @@
+
+<div id="comments" class="col-md-10">
+
+    <% let len = video.comments.length; %>
+
+    <div class="row no-margin video-title" bis_skin_checked="1">
+        <% if(len > 1) { %>
+            <h6><i class="fas fa-book"></i> <%= len %> comments </h6>
+        <% } else { %>
+            <h6><i class="fas fa-book"></i> <%= len %> comment </h6>
+        <% } %>
+        
+    </div>
+    <% 
+        video.comments = video.comments.reverse();
+        video.comments.forEach(function(comment) { %>   
+    %>
+
+    <div class="comment-container">
+        <div class="comment-box row">
+            <div class="col-2 mghji">
+                <img src="<%= comment.user.image %>" alt="" onerror="this.src='https://via.placeholder.com/100x100'">
+            </div>
+            <div class="col-10 detaila">
+                <h6><%= comment.user.name %></h6>
+                <small>Published on <%= comment.createdAt %> , <%= comment.time %> </small>
+                <p>
+                    <%= comment.comment %>
+                </p>
+
+                <div id="replies">
+                    <% if(isLogin) { %>
+                        <div style="float: right; cursor: pointer;" onclick="createReplyNode(this);" data-comment-id="<%= comment._id %>">Reply</div>
+                    <% } %>
+
+                    <% comment.replies.forEach(function (reply) { %>
+                        <div class="comment-container">
+                            <div class="comment-box row">
+                                <div class="col-2 mghji">
+                                    <img src="<%= reply.user.image %>" alt="" onerror="this.src='https://via.placeholder.com/100x100'">
+                                </div>
+                                <div class="col-10 detaila">
+                                    <h6><%= reply.user.name %></h6>
+                                    <small> <%= reply.createdAt %> , <%= reply.time %> </small>
+                                    <p>
+                                        <%= reply.reply %>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    <% }) %>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+
+    <% }) %>
+</div>
+ 
+
+<% if(typeof isLogin !== "undefined" && isLogin) { %>
+    <div class="card col-md-10">
+        <div class="card-header">
+            Leave a comment:
+        </div>
+
+        <div class="card-body">
+            <form onsubmit="return postComment(this);">
+                <div class="form-group">
+                    <textarea style="resize: none;" class="form-control" name="comment"></textarea>
+                </div>
+
+                <input type="submit" class="btn btn-primary" value="Post comment"> 
+            </form>
+        </div>
+    </div>
+<% } else { %>
+    <div class="col-md-10">
+        <a href="/login">
+            <input type="button" class="btn btn-primary" value="Pls Login to add a comment">
+        </a>
+    </div>
+     
+<% } %>
+
+<% if(typeof isLogin !== "undefined" && isLogin) { %>
+
+    <script type="text/javascript">
+
+        //replying to comment
+        //createReplyNode : creating the textarea for the reply on comment
+        
+        function createReplyNode(node) {
+            let commentId = node.getAttribute("data-comment-id");
+            let html = ""
+
+            html += '<div class="row">';
+                html += '<div class="col-md-12">';
+                    html += '<form onsubmit="return postReply(this);">';
+                        html += '<input type="hidden" name="commentId" value="' + commentId + '">';
+
+                        html += '<div class="form-group">';
+                            html += '<label>Write reply</label>';
+                            html += '<textarea class="form-control" style="resize:none" name="reply"></textarea>';
+                        html += '</div>';
+                    
+                        html += '<button type="submit" class="btn btn-primary" data-comment-id="' + commentId + '">Post</buuton>';
+                    html += '</form>';
+
+                html += '</div>'
+            html += '</div>'
+
+            node.innerHTML = html;
+            node.removeAttribute("onclick");
+            
+        }
+    
+        //posting the reply on comment
+        function postReply(form) {
+            let commentId = form.commentId.value;
+            let reply = form.reply.value;
+
+            let ajax = new XMLHttpRequest();
+            ajax.open("POST", "/do-reply", true);
+            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            
+            ajax.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+
+                    let html = "";  
+                        html += '<div class="comment-container">';
+                            html += '<div class="comment-box row">';
+                                html += '<div class="col-6 mghji">';
+                                    html += '<img src="' + '/' + response.user.image +'" onerror="this.src=\'https://via.placeholder.com/100x100\'">';
+                                html += '</div>'
+                                html += '<div class="col-6 detaila">';
+                                    html += '<h6>' + response.user.name + '</h6>'; 
+                                    html += '<small>' + new Date().toLocaleDateString('en-US') + ',' + ' ' + new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true})+ '</small>'  
+                                    html += '<p>' + form.reply.value +'</p>'
+                                html += '</div>';
+                            html += '</div>';
+                        html += '</div>';
+
+                    document.getElementById("replies").innerHTML += html;
+                    form.reply.value = "";
+                }
+            };
+
+            ajax.send("commentId=" + commentId + "&reply=" + reply);
+            return false;
+        }
+
+        //post comments
+        function postComment(self) {
+
+            let ajax = new XMLHttpRequest();
+            ajax.open("POST", "/do-comment", true);
+            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            ajax.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    //append in comments layout
+                    let response = JSON.parse(this.responseText);
+
+                    //making the comment(s) reflect when posted on the video
+
+                    let html = "";  
+                        html += '<div class="comment-container">';
+                            html += '<div class="comment-box row">';
+                                html += '<div class="col-2 mghji">';
+                                    html += '<img src="'  + response.user.image +'" onerror="this.src=\'https://via.placeholder.com/100x100\'">';
+                                html += '</div>'
+                                html += '<div class="col-10 detaila">';
+                                    html += '<h6>' + response.user.name + '</h6>'; 
+                                    html += '<small>' + 'Published on ' + ' ' + new Date().toLocaleDateString('en-US') + ',' + ' ' + new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true})+ '</small>'  
+                                    html += '<p>' + self.comment.value +'</p>'
+                                html += '</div>';
+                            html += '</div>';
+                        html += '</div>';
+              
+                    document.getElementById("comments").innerHTML = html + document.getElementById("comments").innerHTML;
+                    self.comment.value = "";
+                }
+            }
+
+            let videoId = document.getElementById("videoId").value;
+            ajax.send("videoId=" + videoId + "&comment=" + self.comment.value);
+
+            return false;
+        }
+    </script>
+  
+<% } %>

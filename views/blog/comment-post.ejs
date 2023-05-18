@@ -1,0 +1,208 @@
+<% posts.forEach(function(post) { %>
+    <% if (post.comments.length > 1) {%>
+        <h3> <%= post.comments.length %> comments </h3>
+    <%} else {%>
+        <h3> <%= post.comments.length %> comment </h3>
+    <%}%> 
+    <div id="comments">
+        <%
+            post.comments = post.comments.reverse();
+            post.comments.forEach(function(comment) {
+        %>
+            <div class="response-area">
+            
+                <ul class="media-list">
+                    <li class="media">
+                        
+                        <a class="pull-left">
+                            <img width="25" height="25" class="media-object" src="/<%= comment.user.image %>" onerror="this.src='https://via.placeholder.com/100x100'" alt="">
+                        </a>
+                        <div class="media-body">
+                            <ul class="sinlge-post-meta">
+                                <li><i class="fa fa-user"></i><%= comment.user.name %></li>
+                                <li><i class="fa fa-clock-o"></i> <%= comment.time %> </li>
+                                <li><i class="fa fa-calendar"></i> <%= comment.createdAt %> </li>
+                            </ul>
+                            <p><%= comment.comment %></p>
+                            
+                            <div id="replies">
+                                <% if(isLogin) { %>
+                                    <div class="btn btn-primary" style="cursor: pointer; float: right;" onclick="createReplyNode(this);" data-comment-id="<%= comment._id %>">
+                                        <i class="fa fa-reply"></i>Reply
+                                    </div>                                       
+                                <% } %>
+
+                                <% comment.replies.forEach(function(reply) { %>
+                                    <div class="response-area">
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <a class="pull-left">
+                                                    <img width="25" height="25" class="media-object" src="/<%= reply.user.image %>" onerror="this.src='https://via.placeholder.com/100x100'" alt="">
+                                                </a> 
+
+                                                <div class="media-body">
+                                                    <ul class="sinlge-post-meta">
+                                                        <li><i class="fa fa-user"></i><%= reply.user.name %></li>
+                                                        <li><i class="fa fa-clock-o"></i> <%= reply.time %></li>
+                                                        <li><i class="fa fa-calendar"></i> <%= reply.createdAt %> </li>
+                                                    </ul>
+
+                                                    <p><%= reply.reply %></p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                <% }) %>
+                            </div>
+                            
+                        </div>
+                    </li>
+                </ul>					
+            </div>             
+        <% }) %> 
+    </div>   
+<% }) %>
+
+<% if(typeof isLogin !== "undefined" && isLogin) { %>
+    <div class="col-md-10">
+        <div class="card-header">
+            
+            Leave a comment:
+        </div>
+
+        <div class="card-body">
+            <form onsubmit="return postComment(this);">
+                <div class="form-group">
+                    <textarea style="resize: none;" class="form-control" name="comment"></textarea>
+                </div>
+
+                <input type="submit" class="btn btn-primary" value="Post comment"> 
+            </form>
+        </div>
+    </div>
+<% } else { %>
+    <div class="col-md-10">
+        <a href="/login">
+            <input type="button" class="btn btn-primary" value="Pls Login to add a comment">
+        </a>
+    </div>
+<% } %>
+
+<% if(typeof isLogin !== "undefined" && isLogin) { %>
+
+    <script type="text/javascript">
+
+        //replying to comment
+        //createReplyNode : creating the textarea for the reply on comment
+        function createReplyNode(node) {
+            let commentId = node.getAttribute("data-comment-id");
+            let html = "";
+
+            html += '<div class="row">';
+                html += '<div style="background: #fff" class="col-md-12">';
+                    html += '<form onsubmit="return postReply(this);">';
+                        html += '<input type="hidden" name="commentId" value="' + commentId + '">';
+
+                        html += '<div class="form-group">';
+                            html += '<label>Write reply</label>';
+                            html += '<textarea class="form-control" name="reply"></textarea>';
+                        html += '</div>';
+                    
+                        html += '<button type="submit" class="btn btn-primary" data-comment-id="' + commentId + '">Post</buuton>';
+                    html += '</form>';
+
+                html += '</div>'
+            html += '</div>'
+
+            node.innerHTML = html;
+            node.removeAttribute("onclick");
+        }
+
+        //posting the reply on comment
+        function postReply(form) {
+            let commentId = form.commentId.value;
+            let reply = form.reply.value;
+
+            let ajax = new XMLHttpRequest();
+            ajax.open("POST", "/do-comment-reply-post", true);
+            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            ajax.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+
+                    let html = "";
+                    html += '<div class="response-area">';
+                        html += '<ul class="media-list">';
+                            html += '<li class="media">';
+                                html += '<a class="pull-left">';
+                                    html += '<img width="25" height="25" class="media-object" src="' + '/' + response.user.image + '"onerror="this.src=\'https://via.placeholder.com/100x100\'">';
+                                html += '</a>';
+                                html += '<div class="media-body">';
+                                    html += '<ul class="sinlge-post-meta">';
+                                        html += '<li><i class="fa fa-user"></i>' + response.user.name + '</li>';
+                                        html += '<li><i class="fa fa-clock-o"></i>' + new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true})  + '</li>';
+                                        html += '<li><i class="fa fa-calendar"></i>' + new Date().toLocaleDateString('en-US')  + '</li>';
+                                    html += '</ul>';
+                                    html += '<p>' + form.reply.value  + '</p>';
+                                html += '</div>';
+                            html += '</li>';
+                        html += '</ul>';
+                    html += '</div>';
+
+                    document.getElementById("replies").innerHTML += html;
+                    form.reply.value = "";
+
+                }
+            }
+
+            ajax.send("commentId=" + commentId + "&reply=" + reply);
+            return false;
+        }
+
+        //post comments
+        function postComment(self) {
+
+            let ajax = new XMLHttpRequest();
+            ajax.open("POST", "/do-comment-post", true);
+            ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            ajax.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    //append in comments layout
+                    let response = JSON.parse(this.responseText);
+
+                    //making the comment(s) reflect when posted on the video
+                    let html = "";
+                    
+                    html += '<div class="response-area">';
+                        html += '<ul class="media-list">';
+                            html += '<li class="media">';
+                                html += '<a class="pull-left">';
+                                    html += '<img width="25" height="25" class="media-object" src="' + '/' + response.user.image + '"onerror="this.src=\'https://via.placeholder.com/100x100\'">';
+                                html += '</a>';
+                                html += '<div class="media-body">';
+                                    html += '<ul class="sinlge-post-meta">';
+                                        html += '<li><i class="fa fa-user"></i>' + response.user.name + '</li>';
+                                        html += '<li><i class="fa fa-clock-o"></i>' + new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true}) + '</li>';
+                                        html += '<li><i class="fa fa-calendar"></i>' + new Date().toLocaleDateString('en-US') + '</li>';
+                                    html += '</ul>';
+                                    html += '<p>' + self.comment.value + '</p>';
+                                html += '</div>';
+                            html += '</li>';
+                        html += '</ul>';
+                    html += '</div>'
+
+                    document.getElementById("comments").innerHTML = html + document.getElementById("comments").innerHTML;
+                    self.comment.value = "";
+                }
+            }
+
+            let postId = document.getElementById("postId").value;
+            ajax.send("postId=" + postId + "&comment=" + self.comment.value);
+
+            return false;
+        }
+    </script>
+
+<% } %>

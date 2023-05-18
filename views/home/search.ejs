@@ -1,0 +1,42 @@
+<%- include ("../layouts/homeHeader") %>
+    <div class="page-nav no-margin row">
+        <div class="container">
+            <div class="row">
+                <h2>Category : <i style="color: #cc1821; font-weight: 650;"> <%= query %>  </i></h2>
+                <ul>
+                    <li> <a href="/"><i class="fas fa-home"></i> <%= query %>  </a></li>
+                    <li><i class="fas fa-angle-double-right"></i> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container my-4">
+        <h1> <%= query %>  </h1>
+        <div class="row text-center">
+            <% videos.forEach(function(video) { %>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="<%= baseUrl + video.thumbnail %>" style="height: 300px; object-fit: cover;">
+                        <p> <%= video.minutes + ":" + video.seconds %> </p>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= video.title %></h4>
+                            <p class="card-text"> <%= video.category %> </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/watch/<%= video.watch %>" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+
+            <% }) %>
+        </div>
+    </div>
+
+
+<footer class="py-3" style="background-color: #cc1821; margin-top: 12.2em;">
+    <div class="container">
+        <p class="m-0 text-center text-white">
+            Copyright &copy; Flixx <%= new Date().getFullYear() %>
+        </p>
+    </div>
+</footer>

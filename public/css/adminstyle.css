@@ -1,0 +1,39 @@
+
+/* style the cursor behaviour when sorting */
+.sorting tr:not(.home) {
+    cursor: pointer;
+}
+
+.ui-state-highlight {
+    border: 1px dashed #ccc;
+}
+
+/* img preview in admin/add_product.ejs */
+#imgPreview {
+    margin: 20px;
+}
+
+/* if there was no image uploaded */
+#noimages {
+    width: 100px;
+    height: 100px;
+}
+
+/* Gallery images style in edit_product.ejs */
+ul.gallery {
+    padding: 0;
+}
+
+ul.gallery li:first-child {
+    margin-left: 0;
+}
+
+ul.gallery li {
+    margin: 20px;
+    display: inline-block;
+    list-style: none;
+}
+
+table.alignmiddle td{
+    vertical-align: middle !important;
+}

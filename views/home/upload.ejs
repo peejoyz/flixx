@@ -1,0 +1,74 @@
+<%- include ("../layouts/header") %>
+
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-md-12">
+                <h1>Upload video</h1>
+
+                <% if (message != '') { %>
+                    <div id="upload-message">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p class="text-center text-danger"><%= message %></p>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button> -->
+                        </div>
+                    </div>
+                    
+                <% } %>
+
+                <!-- Error messages:  -->
+                <!-- if msg undefined -->
+                <%= typeof msg != 'undefined' ? msg : '' %>
+
+                <form action="/upload-video" method="POST" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label>Select video</label>
+                        <input type="file" name="video" accept=".mp4" class="form-control-file">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select thumbnail</label>
+                        <input type="file" name="thumbnail" accept=".jpg, .jpeg, .png" class="form-control-file">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" class="form-control">
+                    </div> 
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea style="resize: none;" rows="10" name="description" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tags</label>
+                        <input type="text" name="tags" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" name="category">
+                            <option value="Animation">Animation</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Gaming">Travels</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Music">Music</option>
+                            <option value="Nature">Nature</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="Upload">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadImgVideo = document.getElementById("upload-message");
+        setTimeout(function(){uploadImgVideo.style.display = 'none'}, 6000); 
+    </script>
+
+<%- include ("../layouts/footer") %>

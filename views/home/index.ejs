@@ -1,0 +1,95 @@
+<%- include ("../layouts/homeHeader") %>
+
+    <header class="head">
+        <div class="container headcont">
+            <div class="header__content">
+                <h1>Complete Exploration for Everyone</h1>
+                <p>
+                    There are many different ways to explore life. We can explore through travels, through reading, through talking to others,
+                    through trying new things, and through simply being open to new experiences. Which can be achieved on your phone and we got you!.
+                    Explore with us!!
+                </p>
+            </div>
+            <div class="header__image">
+                <!-- <img src="./assets/background.png" alt="Header Image"> -->
+                <img height="500" src="/assets/images/video/head2.png" alt="Header Image">
+                <!-- <img height="500" src="assets/images/video/header.svg" alt="Header Image"> -->
+            </div>
+        </div>
+    </header>
+
+    <!--####################### Trending Starts Here ###################-->
+    <div class="treanding-video container-fluid">
+        <div class="container">
+            <div class="row video-title no-margin">
+                <h6> <i class="fas fa-book"></i>
+                    Treanding Videos
+                </h6>
+            </div>
+            <div class="video-row row">
+                <% videos2.forEach(function(video) {%>
+                    <div class="col-lg-4 col-md-4 col-sm-6" style="margin-bottom: 4.5em;">
+                        <a href="/watch/<%= video.watch %>">
+                            <div class="video-card">
+                                <img width="100%" height="200" src="<%= video.thumbnail %>" alt="">
+        
+                                <div class="details no-margin">
+                                    <h6> <%= video.title %> </h6>
+                                    <div class="col-md-6 col-6">
+                                        <i class="far fa-eye"></i>
+                                        <span><%= video.views %></span>
+                                    </div>
+                                    <div class="col-md-6 col-6 right">
+                                        <i class="far fa-clock"></i>
+                                        <span><%= video.minutes + ":" + video.seconds %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a> 
+                        <p>
+                            <%= video.category %>
+                        </p> 
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+    <!--####################### Latest Videos Starts Here ###################-->
+    <div class="latest-video latest-video container-fluid">
+        <div class="container">
+            <div class="row no-margin video-title">
+                <h6>
+                    <i class="fas fa-book"></i>
+                    Latest Video Videos</h6>
+            </div>
+            <div class="video-row row">
+                <% videos.forEach(function(video) {%>
+                    <div class="col-lg-4 col-md-4 col-sm-6" style="margin-bottom: 4.5em;">
+                        <a href="/watch/<%= video.watch %>">
+                            <div class="video-card">
+                                <img width="100%" height="200" src="<%= video.thumbnail %>" alt="">
+        
+                                <div class="details no-margin">
+                                    <h6> <%= video.title %> </h6>
+                                    <div class="col-md-6 col-6">
+                                        <i class="far fa-eye"></i>
+                                        <span><%= video.views %></span>
+                                    </div>
+                                    <div class="col-md-6 col-6 right">
+                                        <i class="far fa-clock"></i>
+                                        <span><%= video.minutes + ":" + video.seconds %></span>
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </a> 
+                        <p>
+                            <%= video.category %>
+                        </p> 
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+<%- include ("../layouts/homeFooter") %>

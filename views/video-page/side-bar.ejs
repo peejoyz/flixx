@@ -1,0 +1,72 @@
+<style>
+    .video-title {
+        margin-bottom: 0;
+    }
+</style>
+<div class="col-md-4">
+    <!-- Playlists : to display all videos in a playlist-->
+    <% if(playlist.length > 0) { %>
+        <div class="card my-4">
+            <h5 class="card-header">
+                <% user.playlists.forEach(function(playlist) { %>
+                    Playlist : <span style="color:#cc1821; font-weight: 700;"> <%= playlist.title %> </span>
+                <% }) %>
+            </h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-unstyled mb-0">
+                            <% 
+                                playlist.forEach (function (item) {
+                                    <!-- playlist (playlist: []) as/was declared in homeController.js exports.getWatch in video-page/index-->
+                            %>
+                                <% if(item.watch == video.watch) { %>
+                                <li style="background: lightgray;">
+                                <% } else { %>
+                                <li>
+                                    <% } %>
+                                    <img src="<%= baseUrl + item.thumbnail %>" class="img-fluid">
+                                    <h3>
+                                        <a href="/playlist/<%= playlistId + "/" + item.watch %>"> <%= item.title %> </a> 
+                                        <!-- playlistId (playlistId:"") as/was declared in homeController.js exports.getWatch in video-page/index-->
+                                    </h3>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- <div class="col-my-4"> -->
+        <!-- Related videos -->
+        <%- include ("related-videos") %>
+
+        <!-- Tags -->
+        <div class="col-md-4">
+            <div class="row no-margin video-title">
+                <h6>
+                    <i class="fas fa-book"></i>
+                        Tags    
+                </h6>
+            </div>
+            <div class="">
+                <div class="col-lg-12">
+                    <ul class="list-unstyled">
+                        <%
+                            tags = video.tags.split(",");
+                            tags.forEach(function(tag) {
+                                    tag = tag.trim();
+                        %>
+                            <li>
+                                <a target="_blank" href="/tag_search/<%= tag %>"> <%= tag %> </a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+
+</div>

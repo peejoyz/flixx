@@ -1,0 +1,26 @@
+{
+  "name": "flixx",
+  "version": "1.0.0",
+  "description": "Video Streaming Website with blog Integration.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.15.0",
+    "get-video-duration": "^4.1.0",
+    "mongoose": "^7.1.0"
+  }
+}

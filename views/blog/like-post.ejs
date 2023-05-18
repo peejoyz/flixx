@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+    <button type="button" class="btn btn-default" onclick="doLike();">
+        <i class="fa fa-thumbs-up"></i>
+        <% posts.forEach(function(post) { %>
+            <span id="likes"><%= post.likes.length %></span>
+        <% }) %>
+    </button>
+</body>
+
+
+<script type="text/javascript">
+    function doLike() {
+        let ajax = new XMLHttpRequest();
+        ajax.open("POST", "/do-like-post", true);
+        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        ajax.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                if(response.status == "success") {
+                    //update likes
+                    let likes = document.getElementById("likes").innerHTML;
+                    likes = parseInt(likes);
+                    likes++;
+                    document.getElementById("likes").innerHTML = likes;
+                } else {
+                    alert(response.message);
+                }
+
+                if(response.status == "alreadyliked") {
+                    //update likes
+                    let likes = document.getElementById("likes").innerHTML;
+                    likes = parseInt(likes);
+                    likes--;
+                    document.getElementById("likes").innerHTML = likes;
+                } else {
+                    alert(response.message);
+                }
+            }
+        }
+
+        let postId = document.getElementById("postId").value // videoId declared in video-page/index.ejs input type hidden
+        ajax.send("postId=" + postId);
+    }
+
+    
+</script>

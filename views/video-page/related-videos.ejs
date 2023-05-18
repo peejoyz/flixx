@@ -1,0 +1,50 @@
+ 
+     
+        <!-- <div class="row no-margin video-title" id="related-videos">
+            <h6><i class="fas fa-book"> Related Videos </i> Related Videos </h6>
+        </div> -->
+
+        <div class="row no-margin video-title">
+            <h6><i class="fas fa-book"></i> Related Videos</h6>
+            <div id="related-videos"></div>
+        </div>
+     <!-- </div> -->
+
+<script>
+    let category = document.getElementById("category").value; //id category and videoId in video-page/index.ejs
+    let idVideo = document.getElementById("videoId").value;
+
+    let ajax2 = new XMLHttpRequest();
+    ajax2.open("GET", "/get-related-videos/" + category + "/" + idVideo, true);
+
+    ajax2.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200) {
+            let videos = JSON.parse(this.responseText);
+            let html = "";
+            for(let a = 0; a < videos.length; a++) {
+                let flag = false;
+
+                let createdAt = new Date(videos[a].createdAt);
+                let date = createdAt.getDate() + "";
+                
+                date = date.padStart(2, "0") + " " + months [createdAt.getMonth()] + ", " + createdAt.getFullYear;
+                html += '<div class="contri-bghy">';
+                    html += '<div class="image">';
+                        html += '<a href="/watch/' + videos[a].watch + '"> <img src="'  + baseUrl + videos[a].thumbnail + '"/> </a>';
+                    html += '</div>';
+
+                    html += '<div class="detail">';
+                        html += '<h6><a href="/watch/' + videos[a].watch + '">' + videos[a].title + '</a></h6>';
+                        html += '<p>' + videos[a].minutes + ":" + videos[a].seconds + '</p>';
+                    html += '</div>';
+                html += '</div>';
+
+               
+            }
+
+            document.getElementById("related-videos").innerHTML = html;
+        }
+
+    }
+    ajax2.send();
+</script>

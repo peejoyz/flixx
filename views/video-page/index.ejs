@@ -1,0 +1,101 @@
+<%- include ("../layouts/homeHeader") %>
+
+    <!--  ************************* Page Title Starts Here ************************** -->
+    <div class="page-nav no-margin row">
+        <div class="container">
+            <div class="row">
+                <h2> <%= video.title %> </h2>
+                <ul>
+                    <li> <a href="/"><i class="fas fa-home"></i> Home</a></li>
+                    <li><i class="fas fa-angle-double-right"></i> 
+                        By
+                        <a href="/channel/<%= video.user._id %>">
+                            <i style="color: crimson;">
+                                <%= video.user.name %>
+                            </i> 
+                        </a>
+                    </li>
+                    <li>
+                        Posted on
+                        <%= video.createdAt.toLocaleDateString() %>, <%= video.createdAt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true}) %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <input type="hidden" id="videoId" value="<%= video._id %>">
+    <input type="hidden" id="category" value="<%= video.category %>">
+    <!--####################### Video Blog Starts Here ###################-->
+    <div class="container-fluid video-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row no-margin video-cover">
+                        <video id="videoPlayer" controls style="width:100%; height:415; margin-bottom: 0.35em;" poster="<%= baseUrl + video.thumbnail %>" src="<%= baseUrl + video.filePath %>"></video>
+
+                            <div class="col-md-4">
+                                <p class="mb-0">
+                                    <i class="fa fa-eye"></i>
+                                    <%= video.views %> views
+                                </p>
+                            </div>
+        
+                            <div class="col-md-4">
+                                <%- include ("like-dislike") %>
+                            </div>
+        
+                            <div class="col-md-4">
+                                <%- include ("subscribe") %>
+                            </div> 
+
+                        <p>
+                            <%= video.description %>
+                        </p>
+
+                        <p class="text-center" style="margin-bottom: 0.6em;">
+                            <b>Category:</b>
+                            <a target="_blank" style="color: #cc1821; font-weight: 600;" href="/category_search/<%= video.category %>">
+                                <%= video.category %>
+                            </a>
+                        </p>
+                        
+                        <!-- Comments -->
+                        <%- include("comments") %>
+                    </div>
+                </div>
+
+                <!-- Related Videos -->
+
+                <%- include ("side-bar") %>
+            </div>
+        </div>
+    </div>
+
+<%- include ("../layouts/homeFooter") %>
+
+<!--  Save history -->
+<% if(typeof isLogin !== "undefined" && isLogin) { %>
+    <script>
+        window.onbeforeunload = function() {
+            let videoPlayer = document.getElementById("videoPlayer"); //videoPlayer declared in line28
+            let watched = Math.floor(videoPlayer.currentTime);
+
+            if(watched > 0) {
+                let videoId =  document.getElementById("videoId").value;
+
+                let ajax = new XMLHttpRequest();
+                ajax.open("POST", "/save-history", true);
+                ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                ajax.onreadystatechange = function() {
+                    if(this.readyState == 4 && this.status == 200) {
+                        console.log(this.responseText);
+                    }
+                };
+
+                ajax.send("videoId=" + videoId + "&watched=" + watched);
+            }
+        }
+    </script>
+<% } %>

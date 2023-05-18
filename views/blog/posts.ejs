@@ -1,0 +1,49 @@
+
+<%- include('../layouts/blogHeader') %>
+    
+    <h3 class="page-title alignmiddle">Products</h3>
+    <a href="/blog/posts/add-post" class="btn btn-md btn-primary">Add a new post </a>
+    <br><br>
+    
+    <% if (count > 0) { %> <!--If there's any post : -->
+    
+        <table class="table table-striped alignmiddle">
+            <thead>
+                <tr class="home">
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr> 
+            </thead>
+            <tbody> 
+                    
+                <% user.blog.forEach(function(blog) { %>
+                    
+                    <!-- </ul> -->
+
+                    <tr>
+                        <td><%= blog.title %></td>
+                        <td><%- blog.description%></td>
+                        <td>
+                            <img id="noimages" src="<%= blog.image %>">
+                        </td>
+
+                        <input type="hidden" name="image" value="<%= blog.image %>">
+                        <td><a href="/blog/posts/edit-post/<%= blog._id %>" style="color: brown; font-size: larger; font-weight: 600;">Edit</a></td>
+                        <td><a class="confirmDeletion" href="/blog/posts/delete-post/<%= blog._id %>" style="color: brown; font-size: larger; font-weight: 600;">Delete</a></td>  
+                    </tr>
+                    
+                <% }) %>
+                
+            </tbody>
+        </table>
+    
+    <% } else { %>
+        <h3 class="text-center">There are no posts</h3>
+    <% } %>
+
+<%- include('../layouts/BlogFooter') %> 
+

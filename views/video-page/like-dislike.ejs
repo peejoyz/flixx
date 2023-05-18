@@ -1,0 +1,41 @@
+<button type="button" class="btn btn-default" onclick="doLike();">
+    <i class="fa fa-thumbs-up"></i>
+
+    <span id="likes"><%= video.likes.length %></span>
+</button>
+
+<script type="text/javascript">
+    function doLike() {
+        let ajax = new XMLHttpRequest();
+        ajax.open("POST", "/do-like", true);
+        ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        ajax.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                if(response.status == "success") {
+                    //update likes
+                    let likes = document.getElementById("likes").innerHTML;
+                    likes = parseInt(likes);
+                    likes++;
+                    document.getElementById("likes").innerHTML = likes;
+                } else {
+                    alert(response.message);
+                }
+
+                if(response.status == "alreadyliked") {
+                    //update likes
+                    let likes = document.getElementById("likes").innerHTML;
+                    likes = parseInt(likes);
+                    likes--;
+                    document.getElementById("likes").innerHTML = likes;
+                } else {
+                    alert(response.message);
+                }
+            }
+        }
+
+        let videoId = document.getElementById("videoId").value // 
+        ajax.send("videoId=" + videoId);
+    }
+</script>

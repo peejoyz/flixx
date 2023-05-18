@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <% user.blog.forEach(function(blog) {  %>
+        <title> Flixx | <%= blog.title %> </title>
+    <% }) %>
+
+	<link href="/css/main.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets2/images/fav.jpg">
+    <link rel="stylesheet" href="/assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets2/css/fontawsom-all.min.css">
+    <link rel="stylesheet" href="/assets2/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="/assets2/css/style.css"/>
+
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
+</head>
+
+<body>
+  
+  <!--####################### Header Starts Here ###################-->
+  <header class="continer-fluid ">
+    <div class="header-top">
+        <div class="container">
+            <div class="row col-det">
+                <div class="col-lg-6 d-none d-lg-block">
+                    <ul class="ulleft">
+                        
+                        <li>
+                            <i class=""></i>
+                            Flixx
+                            <span>|</span></li>
+                        <li>
+                            <i class="far fa-clock"></i>
+                            Service Time : 12:AM</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <ul class="ulright">
+                        <% if(typeof isLogin !== "undefined" && isLogin) { %>
+                            <li class="nav-item">
+                                <a href="/upload" class="nav-link">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                        Upload Video
+                                    <span>|</span>
+                                </a>
+                            <li>
+
+                            <li class="nav-item">
+                                <a href="/blog" class="nav-link">
+                                    <i class="fas fa-blog"></i>
+                                        Blog
+                                    <span>|</span>
+                                </a>
+                            <li>
+
+                            <li class="nav-item">
+                                <a href="/logout" class="nav-link">
+                                    <i class="fas fa-logout"></i>
+                                    Logout
+                                    <span>|</span>
+                                </a>
+                            <li>
+
+                            <li class="nav-item">
+                               <a href="/settings" class="nav-link">
+                                <i class="fas fa-settings"></i>
+                                    Settings
+                                    <span>|</span>
+                               </a>
+                            <li>
+                        <% } else { %>
+                            <li class="nav-item">
+                                <a href="/login" class="nav-link">
+                                    <i class="fas fa-user"></i>
+                                    Login
+                                    <!-- <span>|</span> -->
+                                </a>
+                            </li>
+        
+                            <li class="nav-item">
+                                <a href="/signup" class="nav-link">
+                                    <i class="fas fa-user"></i>
+                                    Signup
+                                    <!-- <span>|</span> -->
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/blog" class="nav-link">
+                                    <i class="fas fa-blog"></i>
+                                    Blog
+                                    <!-- <span>|</span> -->
+                                </a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom">
+        <div class="container">
+            <div class="row nav-row">
+                <div class="col-md-3 logo">
+                   <a href="/"> <img src="/assets2/images/flixx2.png" alt=""> </a>
+                </div>
+                <div class="col-md-9 nav-col">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navbarNav"
+                            aria-controls="navbarNav"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="/">Home
+                                    </a>
+                                </li>
+                                <% if (typeof isLogin !== "undefined" && isLogin) { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/watch-history"> History </a>
+                                    </li>
+                                <% } %>
+
+                                <% if (typeof isLogin !== "undefined" && isLogin) { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/my_subscriptions"> Subscribed Channels </a>
+                                    </li>
+                                <% } %>
+
+                                <% if (typeof isLogin !== "undefined" && isLogin) { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/channel/<%= user._id %>"> MyChannel </a>
+                                    </li>
+                                <% } %>
+                                
+                                <% if (typeof isLogin !== "undefined" && isLogin) { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/blog/posts/<%= user._id %>"> My Blog Post </a>
+                                    </li>
+                                <% } %> 
+                            </ul>
+                            <div class="searchbar">
+                                <form method="GET" action="/search">
+                                    <input autocomplete="off" type="text" name="search_query" placeholder="Search for a video" />
+                                    <i class="fa fa-search" id="search-icon"></i>
+                                </form>
+                            </div>
+                        </div>                               
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+  
+       <!--  ************************* Page Title Starts Here ************************** -->
+    <div class="page-nav no-margin row">
+        <div class="container">
+            <div class="row">
+                <h2>Other Post</h2>
+                <ul>
+                    <li> <a href="/"><i class="fas fa-home"></i> Home </a></li>
+                    <li><i class="fas fa-angle-double-right"></i> Blog</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+      <!--####################### Video Blog Starts Here ###################-->
+      <div class="container ">
+            <div class="row">
+                <div class="col-sm-3" >
+                </div>
+
+                <div class="col-sm-9">
+
+                    <div class="blog-post-area">
+                        <% user.blog.forEach(function(blog){  %>
+
+                            <h2 class="title" style="margin-top: 1.2em;"> Other Post by <i><%=user.name %></i></h2>
+                            
+                            <div class="single-blog-post">
+                                <h3> <%= blog.title %> </h3>
+                                <div class="post-meta">
+                                    
+                                </div>
+                                <a href="">
+                                    <img width="40" height="500" src="<%= blog.image %>" alt="">
+                                </a>
+                                <p>
+                                    <a target="_blank" href="/single-post/<%= blog._id %>">
+                                        <% if(blog.description.length > 1000) { %>
+                                            <%- blog.description.slice(0, -800) + '<i style="color:#cc1821; font-weight:800"> ... </i>' %>
+                                        <% } else { %>
+                                            <%- blog.description.slice(0, -300) + '<i style="color:#cc1821; font-weight:800"> ... </i>' %>
+                                        <% } %>
+                                    </a>           
+                                </p>
+
+                                <a target="_blank" class="btn btn-primary" href="/single-post/<%= blog._id %>">Read More</a>   
+                            </div>
+                        <% }) %>
+                        <div class="pagination-area">
+                            <ul class="pagination">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+        </div>   
+
+
+  <!--####################### Quote Starts Here ###################-->
+  <div class="footer-ablove">
+    <div class="container">
+    </div>
+</div>
+
+    <div class="copy">
+        <div class="container">
+            <a href="/">&copy; Flixx | All Rights Reserved </a>
+        </div>
+
+    </div>
+</body>
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
+    <script src="/assets/js/script.js"></script>
+
+
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+    <title><%= title2 %></title>
+
+    <link rel="shortcut icon" href="/assets2/images/fav.jpg">
+    <link rel="stylesheet" href="/assets2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets2/css/fontawsom-all.min.css">
+    <link rel="stylesheet" href="/assets2/css/animate.css">
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="/js/main.js"></script>
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets2/css/style.css"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+      integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+      crossorigin="anonymous">
+    </script>
+</head>
+
+<style>
+  .navbar{
+    background: #cc1821;
+  }
+
+</style>
+
+<body>
+    <nav role="navigation" class="navbar navbar-expand-sm navbar-light rounded mb-2">
+        <a style="color: #fff;" class="navbar-brand" href="/" target="_blank">Flixx</a>
+    </nav>  
+
+    <div class="container">
+      <%- messages('messages', locals) %> <!-- Calling the messages middleware -->
+
+      <!-- Making the validation errors show in here -->
+      <div class="container">
+        <div class="col-sm-6">
+            <% if(typeof alert != 'undefined') { %>
+                <div id="error_display">
+                    <% alert.forEach(function(error) { %>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <%= error.msg %>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button> -->
+                        </div>
+                    <% }) %>
+                </div> 
+            <% } %>
+        </div>
+    </div>
+      
+
+     
+
+
+
+
+
+  

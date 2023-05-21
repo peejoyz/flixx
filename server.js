@@ -48,7 +48,7 @@ app.use(expressSession({
         touchAfter: process.env.touchAfter
     }),
     cookie: {
-        // secure: process.env.secure,
+        secure: process.env.secure,
         expires: 360000
     }
 }));

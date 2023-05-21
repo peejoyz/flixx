@@ -200,6 +200,8 @@ exports.postUpload = async (req, res) => {
                     let category = req.body.category;
                     let thumbnail = req.files.thumbnail;
                     let videoUpload = req.files.video;
+                    let maxFileSize = 12 * 1024 * 1024;
+
                     if(!thumbnail) {
                         req.flash('danger', 'Pls check the fields and upload a thumbnail')
                         res.render("home/upload", {
@@ -207,7 +209,6 @@ exports.postUpload = async (req, res) => {
                             title: 'Flixx | Upload'
                         })
                     } else {            
-        
                         if(!videoUpload) {
                             req.flash('danger', 'Pls check the fields and upload a video')
                             res.render("home/upload", {
@@ -231,13 +232,21 @@ exports.postUpload = async (req, res) => {
                                 let pathVideo = 'public/videos/' + fileNameVideo;
     
                                 let pathMVideo = '/videos/' + fileNameVideo;
-    
-                                videoUpload.mv(pathVideo, (err) => {
-                                    if(err) {
-                                        return res.status(500).json({message : err.message});
-                                    } 
-                                })
 
+                                if(videoUpload > maxFileSize) {
+                                    message = "File too large, file must not be greater than 12MB";
+                                    res.render('home/upload', {
+                                        "isLogin": true,
+                                        message,
+                                        title: 'Flixx | Upload'
+                                    })
+                                } else {
+                                    videoUpload.mv(pathVideo, (err) => {
+                                        if(err) {
+                                            return res.status(500).json({message : err.message});
+                                        } 
+                                    })
+                                }
                                 //get user data to save in videos document
                                 getUser(req.session.user_id, (user) => {
                                     const currentTime = new Date().getTime();
@@ -323,14 +332,11 @@ exports.getWatch = async (req, res) => {
         if(video == null){
             res.send("Video does not exists");
         } else {
-
             //increment views counter
             Video.findByIdAndUpdate({_id: video._id}, {
                 $inc: {views: 1}}, {new: true}
             )
-            .then((response) => {
-                console.log('');
-            }).catch((err) => {
+            .then((response) => {}).catch((err) => {
                 console.log(err.message);
             })
             getUser(req.session.user_id, (user) => {

@@ -10,7 +10,6 @@ const MongoStore = require('connect-mongo');
 const fileUpload = require('express-fileupload');
 
 const app = express();
-
 const port = process.env.port || 7000;
 mongoose.set('strictQuery', false);
 const connectDB = async () => {

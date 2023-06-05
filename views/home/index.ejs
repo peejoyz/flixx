@@ -29,7 +29,7 @@
             <div class="video-row row">
                 <% videos2.forEach(function(video) {%>
                     <div class="col-lg-4 col-md-4 col-sm-6" style="margin-bottom: 4.5em;">
-                        <a href="/watch/<%= video.watch %>">
+                        <a href="/watch/<%= video.watch %>" target="_blank">
                             <div class="video-card">
                                 <img width="100%" height="200" src="<%= video.thumbnail %>" alt="">
         
@@ -60,12 +60,12 @@
             <div class="row no-margin video-title">
                 <h6>
                     <i class="fas fa-book"></i>
-                    Latest Video Videos</h6>
+                    Latest Videos</h6>
             </div>
             <div class="video-row row">
                 <% videos.forEach(function(video) {%>
                     <div class="col-lg-4 col-md-4 col-sm-6" style="margin-bottom: 4.5em;">
-                        <a href="/watch/<%= video.watch %>">
+                        <a href="/watch/<%= video.watch %>" target="_blank">
                             <div class="video-card">
                                 <img width="100%" height="200" src="<%= video.thumbnail %>" alt="">
         

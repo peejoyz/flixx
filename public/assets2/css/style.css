@@ -628,7 +628,6 @@ header {
     margin: 1rem 0 3rem;
     color: #000;
     font-size: 0.8rem;
-    line-height: 0.6em;
   }
 }
 
@@ -655,8 +654,7 @@ header {
   .head .headcont .header__content p {
     margin: 2rem 0 3rem;
     color: #000;
-    font-size: 0.75rem;
-    line-height: 0.6em;
+    font-size: 0.9rem;
   }
 }
 

@@ -1,4 +1,3 @@
-
 # Flixx
 
 An Online video streaming app with blog integration.

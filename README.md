@@ -4,7 +4,7 @@ An Online video streaming app with blog integration.
 
 ## Live Preview
 
-- [Flixx](https://flixx.cyclic.app/)
+- [Flixx](https://flixx-ew9t.onrender.com/)
 
 
 ## Features

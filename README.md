@@ -21,8 +21,8 @@ An Online video streaming app with blog integration.
 
 - HTML
 - CSS
-- JAVASCRIPT
-- BOOTSTRAP
+- JAVASCRIPTs
+- BOOTSTRAPsss
 - AJAX
 - EJS
 - MONGODB
